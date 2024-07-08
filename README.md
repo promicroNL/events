@@ -10,11 +10,14 @@ The repository includes a variety of presentation, that I should have uploaded e
 
 ## How to Use
 
-Each folder within the repository is dedicated to a specific presentation. Inside each folder, you will find:
+Each folder within the repository is dedicated to a specific presentation.  
+The folder name is built like `<YYYY-MM-DD> <Presentation> - <Location>`  
+
+Inside each folder, you will find:
 
 - The presentation slides in PDF format.
-- Any supplementary materials or documentation referenced in the presentation.
-- A README file providing an overview and key takeaways from the presentation.
+- (optional) Any supplementary materials or documentation referenced in the presentation.
+- (optional) A README file providing an overview and key takeaways from the presentation.
 
 ## Getting Started
 

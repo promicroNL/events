@@ -1,0 +1,1 @@
+﻿while(1){cls;vssadmin list shadows; sleep 2}
