@@ -13,6 +13,7 @@
 
 ### Articles - mentioned and used
 - [Git Basics - eBook - Pro Git](https://git-scm.com/book/en/v2)
+- [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/)
 - [Data Cuisine: Getting Started With Datgabase Projects And Version Control](https://www.data-cuisine.com/database-projects/getting-started-with-database-projects-and-version-control/)
 - [Data Cuisine: Database Projects - Getting Your Database Partially In A Datbase Project](https://www.data-cuisine.com/database-projects/database-projects-getting-your-database-partially-in-a-database-project/)
 - [RG Product learning: A Real-world Implementation of Database DevOps: People, Processes, Tools](https://www.red-gate.com/hub/product-learning/flyway/database-devops-people-processes-tools)
