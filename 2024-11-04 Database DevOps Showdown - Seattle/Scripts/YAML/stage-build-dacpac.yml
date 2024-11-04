@@ -1,0 +1,23 @@
+stages:
+  - stage: Build
+    pool:
+      vmImage: windows-latest
+    jobs:
+    - job: BuildDatabaseProject
+      displayName: Build Database Project
+      steps:
+      - task: MSBuild@1
+        inputs:
+          solution: '**/*.sln'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(agent.builddirectory)'
+          Contents: '**/*.dacpac'
+          TargetFolder: '$(build.artifactstagingdirectory)'
+          CleanTargetFolder: true
+          OverWrite: true
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(build.artifactstagingdirectory)'
+          artifact: 'main-artifact'
+          publishLocation: 'pipeline'

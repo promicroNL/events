@@ -1,0 +1,32 @@
+stages:
+  - stage: Build
+    pool:
+      vmImage: windows-latest
+    jobs:
+    - job: Copy
+      displayName: Get migration files and config in the build
+      steps:
+      - checkout: self  
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(agent.builddirectory)\s\$(Build.Repository.Name)'
+          Contents: |
+            **\migrations\**
+            **\flyway.conf**
+            **\flyway.toml**
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          CleanTargetFolder: true
+          OverWrite: true
+      - checkout: automation  
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(agent.builddirectory)\s\Automation'
+          Contents: |
+            **\.automation\**
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          OverWrite: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: $(Build.BuildNumber)'
+        inputs:
+          ArtifactName: '$(Build.BuildNumber)'

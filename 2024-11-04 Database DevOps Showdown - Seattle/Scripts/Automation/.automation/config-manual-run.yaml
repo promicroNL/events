@@ -1,0 +1,20 @@
+SqlServerInstance: # Used for migration databases.
+  MachineName: localhost
+  Username: devops
+  Password: DatabaseDevops!
+  NamedInstances:
+    - Name: Bartender
+      Port: 50779
+ 
+Databases:
+  - Name: DatabaseDevOpsShowdown
+    FlywayFolderName: database1
+
+DriftReportPath: C:\Data\Test\DriftReports
+SnapShotReportPath: C:\Data\Test\Snapshots
+
+NamedInstancesAlias: 
+  - Name: MuhammadAli
+    Alias: CassiusMarcellusClay 
+  - Name: thuizer
+    Alias: "tonie.huizer_promicro.nl#EXT#"
