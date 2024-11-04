@@ -21,7 +21,6 @@
 
 ### Videos
 - [Videos from the slide deck](https://www.youtube.com/playlist?list=PLWqOC-hgKRi-RYk9FfFdc7Z-cF3qebJV_)
-- [Git Init] (https://www.youtube.com/playlist?list=PLWqOC-hgKRi-RYk9FfFdc7Z-cF3qebJV_)
 
 ## Round 2: Development Techniques - Building Your Knowledge
 
