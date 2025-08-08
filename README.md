@@ -1,11 +1,21 @@
-# Presentation Materials
+# Tonies Presentations Repository
 
-This repository contains slide decks and other resources from my sessions. Every folder holds the material for a specific event. For the latest schedule visit [my Sessionize page](https://sessionize.com/Tonie).
+Welcome to the archive of public talks by **Tonie Huizer**.  
+This repository contains slides and session notes for conference and community presentations across a range of data‑platform and DevOps topics.
 
-## Events (reverse chronological)
+Each folder is named using the convention `<YYYY‑MM‑DD> <Event name [Location]>`.  
+The date reflects the day the session was delivered rather than the overall conference dates.  
+Inside each folder you will typically find the slides in PDF format along with supporting material.
+
+For the latest schedule visit [my Sessionize page](https://sessionize.com/Tonie).
+
+## Event list
+
+The table below lists the sessions in **reverse chronological order** (a‑chronological).  
+Click a link to open the corresponding folder.
 
 - [2025-10-06 dataMinds Connect 2025](2025-10-06%20dataMinds%20Connect%202025)
-- [2025-09-12 DATA:Scotland 2025](2025-09-12%20DATA:Scotland%202025)
+- [2025-09-12 DATA:Scotland 2025](2025-09-12%20DATAScotland%202025)
 - [2025-09-06 Data Saturday Gothenburg 2025](2025-09-06%20Data%20Saturday%20Gothenburg%202025)
 - [2025-08-18 PASS Data On Tour New York 2025](2025-08-18%20PASS%20Data%20On%20Tour%20New%20York%202025)
 - [2025-05-12 SQLDay 2025](2025-05-12%20SQLDay%202025)
@@ -24,3 +34,8 @@ This repository contains slide decks and other resources from my sessions. Every
 - [2023-08-26 Data Saturday Gothenburg 2023](2023-08-26%20Data%20Saturday%20Gothenburg%202023)
 - [2022-11-15 PASS Data Community Summit 2022](2022-11-15%20PASS%20Data%20Community%20Summit%202022)
 - [2021-11-08 PASS Data Community Summit 2021](2021-11-08%20PASS%20Data%20Community%20Summit%202021)
+
+
+## Feedback
+
+Your feedback is valuable to me. If you have any suggestions for improving the presentations or this repository, please create an issue or contact me directly.
