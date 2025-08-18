@@ -1,0 +1,4 @@
+CREATE TABLE Hello (
+    Id INT PRIMARY KEY,
+    Name NVARCHAR(50)
+);
