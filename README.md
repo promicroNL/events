@@ -15,7 +15,7 @@ The table below lists the sessions in **reverse chronological order** (a‑chron
 Click a link to open the corresponding folder.
 
 - [2025-10-06 dataMinds Connect 2025](2025-10-06%20dataMinds%20Connect%202025)
-- [2025-09-12 DATA:Scotland 2025](2025-09-12%20DATA%3AScotland%202025)
+- [2025-09-12 DATA:Scotland 2025](2025-09-12%20DATA-Scotland%202025)
 - [2025-09-06 Data Saturday Gothenburg 2025](2025-09-06%20Data%20Saturday%20Gothenburg%202025)
 - [2025-08-18 PASS Data On Tour New York 2025](2025-08-18%20PASS%20Data%20On%20Tour%20New%20York%202025)
 - [2025-05-12 SQLDay 2025](2025-05-12%20SQLDay%202025)
