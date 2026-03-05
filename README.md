@@ -14,6 +14,7 @@ For the latest schedule visit [my Sessionize page](https://sessionize.com/Tonie)
 The table below lists the sessions in **reverse chronological order** (a‑chronological).  
 Click a link to open the corresponding folder.
 
+- [2026-03-04 SQL Konferenz Hanau](2026-03-04%20SQL%20Konferenz%20Hanau)
 - [2026-01-31 Data Saturday Denmark](2026-01-31%20Data%20Saturday%20Denmark)
 - [2025-11-20 PASS Data Community Summit 2025](2025-11-20%20PASS%20Data%20Community%20Summit%202025)
 - [2025-11-16 SQL Saturday Oregon SW Washington 2025](2025-11-16%20SQL%20Saturday%20Oregon%20SW%20Washington%202025)
