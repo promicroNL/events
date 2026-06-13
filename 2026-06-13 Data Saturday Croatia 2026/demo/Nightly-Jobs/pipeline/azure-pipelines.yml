@@ -1,0 +1,46 @@
+# Cleanup release folders.
+
+schedules:
+- cron: "0 1 * * *"
+  displayName: Scheduled cleanup run at 01:00 at UTC time every day.
+  branches:
+   include:
+     - master
+  always: true    
+
+pool:
+  vmImage: 'windows-latest'
+
+resources:
+  repositories:
+  - repository: automation
+    type: git
+    name: automation
+
+stages:
+- stage: CleanDatabases
+  jobs:
+  - job: SQLMICleanup
+    displayName: Delete stashed databases
+    steps:
+    - checkout: automation  
+    - task: PowerShell@2
+      name: Cleam_sqlmifirst
+      displayName: 'Check for stashed dbs ready for deletion'
+      inputs:
+        filePath: '$(agent.builddirectory)\s\scripts\07-cleanup-stash.ps1'
+        arguments: '-settingsFile $(agent.builddirectory)\s\config\sqlmi-first.json'
+        pwsh: true
+      env:
+        SQLMIADMINPASS: $(SqlMiAdminPass)
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    - task: PowerShell@2
+      name: Cleam_sqlmisecond
+      displayName: 'Check for stashed dbs ready for deletion'
+      inputs:
+        filePath: '$(agent.builddirectory)\s\scripts\07-cleanup-stash.ps1'
+        arguments: '-settingsFile $(agent.builddirectory)\s\config\sqlmi-second.json'
+        pwsh: true
+      env:
+        SQLMIADMINPASS: $(SqlMiAdminPass)
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)

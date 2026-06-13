@@ -1,0 +1,196 @@
+name: $(Year:yy).$(Month).$(Rev:r).$(BranchName)
+
+variables:
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/') }}:
+    Ref: $[ replace(replace(replace(variables['Build.SourceBranch'], 'refs/heads/release/', ''), 'refs/heads/', ''), '/', '-') ]
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
+    Ref: $[ replace(replace(variables['System.PullRequest.SourceBranch'], 'refs/heads/', ''), '/', '-') ]
+    PrPrefix: 'PR.'
+
+  BranchName: $[ format('{0}{1}', variables['PrPrefix'], variables['Ref']) ]
+
+trigger:
+  - main
+  - topic/*
+
+resources:
+  repositories:
+    - repository: Automation
+      type: git
+      name: Automation
+
+stages:
+  - stage: Build
+    displayName: Build Artifact
+    jobs:
+      - job: Build
+        displayName: Build Scripts
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          - checkout: self
+          - checkout: Automation
+          - task: CopyFiles@2
+            displayName: 'Include database'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)\database\database'
+              Contents: '**\*'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)\database'
+          - task: CopyFiles@2
+            displayName: 'Include automation scripts'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)\Automation\scripts'
+              Contents: '**\*'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)\scripts'
+          - task: CopyFiles@2
+            displayName: 'Include automation config'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)\Automation\config'
+              Contents: '**\*'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)\config'
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: drop
+
+  - stage: Wait
+    displayName: Wait for approval
+    dependsOn: Build
+    jobs:
+    # Pause for approval
+    - job: WaitForApproval
+      displayName: Wait for approval
+      pool: server
+      steps:
+        - task: ManualValidation@1
+          timeoutInMinutes: 30
+          inputs:
+            notifyUsers: |
+              tonie.huizer@promicro.nl
+            instructions: 'Approve to deploy. The approver determines the target environment.'
+            onTimeout: 'reject'
+
+  - stage: Provision
+    displayName: Provision & Seed
+    dependsOn: Wait
+    jobs:
+
+    # Determine environment from approver using the script from the artifact
+    - job: DetermineEnvironment
+      displayName: Determine target environment from approver
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+        - checkout: none
+        - download: current
+          artifact: drop
+          displayName: 'Download artifact'
+
+        - task: PowerShell@2
+          name: SelectEnv
+          displayName: Resolve approver → environment
+          inputs:
+            filePath: '$(Pipeline.Workspace)\drop\scripts\06-resolve-approver-env.ps1'
+            arguments: >
+              -MappingFile $(Pipeline.Workspace)\drop\config\approver-environment.json
+            pwsh: true
+          env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+    # Fan-out deployment jobs (one per literal environment) with conditions
+    - deployment: ProvisionSqlmi
+      displayName: Create & Seed or Unstash
+      dependsOn:
+        - DetermineEnvironment
+      condition: succeeded()
+      pool:
+        vmImage: 'windows-latest'
+      environment: SQLMI
+      variables:
+        TargetEnvironment: $[ dependencies.DetermineEnvironment.outputs['SelectEnv.TargetEnvironment'] ]
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: drop
+                displayName: 'Download artifact'
+              - task: PowerShell@2
+                displayName: 'Verifying artifact content'
+                inputs:
+                  filePath: '$(Pipeline.Workspace)\drop\scripts\01-precheck.ps1'
+                  arguments: '-settingsFile $(Pipeline.Workspace)\drop\config\$(TargetEnvironment).json -migrationsPath $(Pipeline.Workspace)\drop\database'
+                  pwsh: true
+                env:
+                  SQLMIADMINPASS: $(SqlMiAdminPass)
+              - task: PowerShell@2
+                name: CreateDbStep
+                displayName: 'Create \ Unstash Database with EP'
+                inputs:
+                  filePath: '$(Pipeline.Workspace)\drop\scripts\02-create-db.ps1'
+                  arguments: '-settingsFile $(Pipeline.Workspace)\drop\config\$(TargetEnvironment).json'
+                  pwsh: true
+                env:
+                  BUILD_BUILDNUMBER: $(Build.BuildNumber)
+                  SQLMIADMINPASS: $(SqlMiAdminPass)
+                  SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+              - task: PowerShell@2
+                displayName: 'Initialize Schema'
+                condition: and(succeeded(), eq(variables['FreshDatabase'], 'true'))
+                inputs:
+                  filePath: '$(Pipeline.Workspace)\drop\scripts\03-apply-sql.ps1'
+                  arguments: '-settingsFile $(Pipeline.Workspace)\drop\config\$(TargetEnvironment).json -migrationsPath $(Pipeline.Workspace)\drop\database'
+                  pwsh: true
+                env:
+                  SQLMIADMINPASS: $(SqlMiAdminPass)
+              - task: PowerShell@2
+                displayName: 'Run Verification'
+                inputs:
+                  filePath: '$(Pipeline.Workspace)\drop\scripts\04-verify.ps1'
+                  arguments: '-settingsFile $(Pipeline.Workspace)\drop\config\$(TargetEnvironment).json'
+                  pwsh: true
+                env:
+                  BUILD_BUILDNUMBER: $(Build.BuildNumber)
+                  SQLMIADMINPASS: $(SqlMiAdminPass)
+
+  - stage: Approve
+    displayName: Approve and stash environment (requires approval)
+    dependsOn: Provision
+    condition: succeeded()
+    jobs:
+    # Pause for approval (agentless)
+    - job: ApproveRelease
+      displayName: Approve release
+      pool: server
+      variables:
+        Approver: $[ stageDependencies.Provision.DetermineEnvironment.outputs['SelectEnv.Approver'] ]
+      steps:
+        - task: ManualValidation@1
+          timeoutInMinutes: 2880 # task times out in 2 days
+          inputs:
+            notifyUsers: |
+              $(Approver)
+            instructions: 'Approve to stash and mark the release as complete. All stasted database of completed releases will be cleaned at night.'
+            onTimeout: 'reject'
+    - deployment: StashDb
+      dependsOn: ApproveRelease
+      displayName: 'Stash Database After Approval'
+      pool:
+        vmImage: 'windows-latest'
+      environment: SQLMI
+      variables:
+        TargetEnvironment: $[ stageDependencies.Provision.DetermineEnvironment.outputs['SelectEnv.TargetEnvironment'] ]
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: drop
+                displayName: 'Download artifact'
+              - task: PowerShell@2
+                displayName: 'Stash Database'
+                inputs:
+                  filePath: '$(Pipeline.Workspace)\drop\scripts\05-stash.ps1'
+                  arguments: '-settingsFile $(Pipeline.Workspace)\drop\config\$(TargetEnvironment).json'
+                  pwsh: true
+                env:
+                  BUILD_BUILDNUMBER: $(Build.BuildNumber)
+                  SQLMIADMINPASS: $(SqlMiAdminPass)
