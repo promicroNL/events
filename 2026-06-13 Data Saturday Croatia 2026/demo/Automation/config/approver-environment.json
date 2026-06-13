@@ -1,0 +1,12 @@
+{
+  "approverEnvironment": [
+    {
+      "Name": "tonie.huizer@outlook.com",
+      "Environment": "sqlmi-second"
+    },
+    {
+      "Name": "tonie.huizer@promicro.nl",
+      "Environment": "sqlmi-first"
+    }
+  ]
+}
