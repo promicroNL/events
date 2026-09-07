@@ -14,7 +14,7 @@ For the latest schedule visit [my Sessionize page](https://sessionize.com/Tonie)
 The table below lists the sessions in **reverse chronological order** (a‑chronological).  
 Click a link to open the corresponding folder.
 
-- [2026-08-29 Data Saturday Oslo](2026-08-29%20Data%20Saturday%20Oslo)
+- [2026-09-05 Data Saturday Gothenburg](2026-09-05%20Data%20Saturday%20Gothenburg)
 - [2026-06-13 Data Saturday Croatia 2026](2026-06-13%20Data%20Saturday%20Croatia%202026)
 - [2026-03-27 devConf Heerlen](2026-03-27%20devConf%20Heerlen) 
 - [2026-03-11 Future Tech Utrecht](2026-03-11%20Future%20Tech%20Utrecht)
