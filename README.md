@@ -14,7 +14,9 @@ For the latest schedule visit [my Sessionize page](https://sessionize.com/Tonie)
 The table below lists the sessions in **reverse chronological order** (a‑chronological).  
 Click a link to open the corresponding folder.
 
+- [2026-10-12 dataMinds Connect 2026](2026-10-12%20dataMinds%20Connect%202026)
 - [2026-09-05 Data Saturday Gothenburg](2026-09-05%20Data%20Saturday%20Gothenburg)
+- [2026-08-29 Data Saturday Oslo](2026-08-29%20Data%20Saturday%20Oslo)
 - [2026-06-13 Data Saturday Croatia 2026](2026-06-13%20Data%20Saturday%20Croatia%202026)
 - [2026-03-27 devConf Heerlen](2026-03-27%20devConf%20Heerlen) 
 - [2026-03-11 Future Tech Utrecht](2026-03-11%20Future%20Tech%20Utrecht)
@@ -22,9 +24,10 @@ Click a link to open the corresponding folder.
 - [2026-01-31 Data Saturday Denmark](2026-01-31%20Data%20Saturday%20Denmark)
 - [2025-11-20 PASS Data Community Summit 2025](2025-11-20%20PASS%20Data%20Community%20Summit%202025)
 - [2025-11-16 SQL Saturday Oregon SW Washington 2025](2025-11-16%20SQL%20Saturday%20Oregon%20SW%20Washington%202025)
+- [2025-10-29 Techorama 2026](2025-10-29%20Techorama%202026)
 - [2025-10-17 SQLDay Lite Bielsko Biala](2025-10-17%20SQLDay%20Lite%20Bielsko%20Biala)
 - [2025-10-06 dataMinds Connect 2025](2025-10-06%20dataMinds%20Connect%202025)
-- [2025-08-18 PASS Data On Tour The Netherlands 2025](2025-10-01%20PASS%20Data%20On%20Tour%20The%20Netherlands%202025)
+- [2025-10-01 PASS Data On Tour The Netherlands 2025](2025-10-01%20PASS%20Data%20On%20Tour%20The%20Netherlands%202025)
 - [2025-09-12 DATA:Scotland 2025](2025-09-12%20DATA-Scotland%202025)
 - [2025-09-06 Data Saturday Gothenburg 2025](2025-09-06%20Data%20Saturday%20Gothenburg%202025)
 - [2025-08-18 PASS Data On Tour New York 2025](2025-08-18%20PASS%20Data%20On%20Tour%20New%20York%202025)
